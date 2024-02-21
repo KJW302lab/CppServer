@@ -1,0 +1,14 @@
+/Users/sandwich1991/Desktop/Server/DummyClient/bin/Debug/net7.0/DummyClient
+/Users/sandwich1991/Desktop/Server/DummyClient/bin/Debug/net7.0/DummyClient.deps.json
+/Users/sandwich1991/Desktop/Server/DummyClient/bin/Debug/net7.0/DummyClient.runtimeconfig.json
+/Users/sandwich1991/Desktop/Server/DummyClient/bin/Debug/net7.0/DummyClient.dll
+/Users/sandwich1991/Desktop/Server/DummyClient/bin/Debug/net7.0/DummyClient.pdb
+/Users/sandwich1991/Desktop/Server/DummyClient/obj/Debug/net7.0/DummyClient.GeneratedMSBuildEditorConfig.editorconfig
+/Users/sandwich1991/Desktop/Server/DummyClient/obj/Debug/net7.0/DummyClient.AssemblyInfoInputs.cache
+/Users/sandwich1991/Desktop/Server/DummyClient/obj/Debug/net7.0/DummyClient.AssemblyInfo.cs
+/Users/sandwich1991/Desktop/Server/DummyClient/obj/Debug/net7.0/DummyClient.csproj.CoreCompileInputs.cache
+/Users/sandwich1991/Desktop/Server/DummyClient/obj/Debug/net7.0/DummyClient.dll
+/Users/sandwich1991/Desktop/Server/DummyClient/obj/Debug/net7.0/refint/DummyClient.dll
+/Users/sandwich1991/Desktop/Server/DummyClient/obj/Debug/net7.0/DummyClient.pdb
+/Users/sandwich1991/Desktop/Server/DummyClient/obj/Debug/net7.0/DummyClient.genruntimeconfig.cache
+/Users/sandwich1991/Desktop/Server/DummyClient/obj/Debug/net7.0/ref/DummyClient.dll
