@@ -11,7 +11,7 @@ class Program
         // DNS (Domain Name System)
         string host = Dns.GetHostName();
         IPHostEntry ipHost = Dns.GetHostEntry(host);
-        IPAddress ipAddr = ipHost.AddressList[1];
+        IPAddress ipAddr = ipHost.AddressList[3];
         IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
         while (true)
@@ -26,8 +26,11 @@ class Program
                 Console.WriteLine($"Connected To {socket.RemoteEndPoint}");
         
                 // 보낸다
-                byte[] sendBuff = Encoding.UTF8.GetBytes("Hello World!");
-                int sendBytes = socket.Send(sendBuff);
+                for (int i = 0; i < 5; i++)
+                {
+                    byte[] sendBuff = Encoding.UTF8.GetBytes($"Hello World! {i}");
+                    int sendBytes = socket.Send(sendBuff);   
+                }
 
                 // 받는다
                 byte[] recvBuff = new byte[1024];

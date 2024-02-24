@@ -12,19 +12,15 @@ class Program
     {
         try
         {
-            // 받는다
-            byte[] recvBuff = new byte[1024];
-            int recvBytes = clientSocket.Receive(recvBuff);
-            string recvData = Encoding.UTF8.GetString(recvBuff, 0, recvBytes);
-            Console.WriteLine($"[From Client] {recvData}");
-
-            // 보낸다
-            byte[] sendBuff = Encoding.UTF8.GetBytes("Welcome To MMORPG Server !");
-            clientSocket.Send(sendBuff);
+            Session session = new();
+            session.Start(clientSocket);
             
-            // 쫓아낸다
-            clientSocket.Shutdown(SocketShutdown.Both);
-            clientSocket.Close();
+            byte[] sendBuff = Encoding.UTF8.GetBytes("Welcome To MMORPG Server !");
+            session.Send(sendBuff);
+            
+            Thread.Sleep(1000);
+            session.Disconnect();
+
         }
         catch (Exception e)
         {
@@ -37,7 +33,7 @@ class Program
         // DNS (Domain Name System)
         string host = Dns.GetHostName();
         IPHostEntry ipHost = Dns.GetHostEntry(host);
-        IPAddress ipAddr = ipHost.AddressList[1];
+        IPAddress ipAddr = ipHost.AddressList[3];
         IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
         _listener.Initialize(endPoint, OnAcceptHandler);
