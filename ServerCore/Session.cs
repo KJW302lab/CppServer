@@ -1,9 +1,9 @@
+using System.Net;
 using System.Net.Sockets;
-using System.Text;
 
 namespace ServerCore;
 
-public class Session
+public abstract class Session
 {
     private Socket _socket;
     private int _disconnected = 0;
@@ -14,6 +14,11 @@ public class Session
     private Queue<byte[]> _sendQueue = new();
     
     List<ArraySegment<byte>> _pendingList = new();
+
+    public abstract void OnConnected(EndPoint endPoint);
+    public abstract void OnReceive(ArraySegment<byte> buffer);
+    public abstract void OnSend(int numOfBytes);
+    public abstract void OnDisconnected(EndPoint endPoint);
 
     public void Start(Socket socket)
     {
@@ -42,6 +47,7 @@ public class Session
         if (Interlocked.Exchange(ref _disconnected, 1) == 1)
             return;
         
+        OnDisconnected(_socket.RemoteEndPoint);
         _socket.Shutdown(SocketShutdown.Both);
         _socket.Close();
     }
@@ -74,8 +80,7 @@ public class Session
                     _sendArgs.BufferList = null;
                     _pendingList.Clear();
 
-                    Console.WriteLine($"Transferred bytes : {_sendArgs.BytesTransferred}");
-                    
+                    OnSend(_sendArgs.BytesTransferred);
                     if (_sendQueue.Count > 0)
                         RegisterSend();
                 }
@@ -102,8 +107,7 @@ public class Session
         {
             try
             {
-                string recvData = Encoding.UTF8.GetString(args.Buffer, args.Offset, args.BytesTransferred);
-                Console.WriteLine($"[From Client] {recvData}");
+                OnReceive(new ArraySegment<byte>(args.Buffer, args.Offset, args.BytesTransferred));
                 RegisterReceive();
             }
             catch (Exception e)

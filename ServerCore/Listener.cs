@@ -6,12 +6,12 @@ namespace ServerCore;
 public class Listener
 {
     private Socket _listenSocket;
-    private Action<Socket> _onAcceptHandler;
+    private Func<Session> _sessionFactory;
 
-    public void Initialize(IPEndPoint endPoint, Action<Socket> onAcceptHandler)
+    public void Initialize(IPEndPoint endPoint, Func<Session> sessionFactory)
     {
         _listenSocket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-        _onAcceptHandler += onAcceptHandler;
+        _sessionFactory += sessionFactory;
         
         _listenSocket.Bind(endPoint);
         
@@ -35,7 +35,11 @@ public class Listener
     void OnAcceptCompleted(object? sender, SocketAsyncEventArgs args)
     {
         if (args.SocketError == SocketError.Success && args.AcceptSocket != null)
-            _onAcceptHandler.Invoke(args.AcceptSocket);
+        {
+            Session session = _sessionFactory.Invoke();
+            session.Start(args.AcceptSocket);
+            session.OnConnected(args.AcceptSocket.RemoteEndPoint);
+        }
         else
             Console.WriteLine(args.SocketError);
 

@@ -1,32 +1,41 @@
 ﻿using System.Net;
-using System.Net.Sockets;
 using System.Text;
 
 namespace ServerCore;
 
+class GameSession : Session
+{
+    public override void OnConnected(EndPoint endPoint)
+    {
+        Console.WriteLine($"OnConnected : {endPoint}");
+        
+        byte[] sendBuff = Encoding.UTF8.GetBytes("Welcome To MMORPG Server !");
+        Send(sendBuff);
+            
+        Thread.Sleep(1000);
+        Disconnect();
+    }
+
+    public override void OnReceive(ArraySegment<byte> buffer)
+    {
+        string recvData = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, buffer.Count);
+        Console.WriteLine($"[From Client] {recvData}");
+    }
+
+    public override void OnSend(int numOfBytes)
+    {
+        Console.WriteLine($"Transferred bytes : {numOfBytes}");
+    }
+
+    public override void OnDisconnected(EndPoint endPoint)
+    {
+        Console.WriteLine($"OnDisconnected : {endPoint}");
+    }
+}
+
 class Program
 {
     private static Listener _listener = new();
-
-    static void OnAcceptHandler(Socket clientSocket)
-    {
-        try
-        {
-            Session session = new();
-            session.Start(clientSocket);
-            
-            byte[] sendBuff = Encoding.UTF8.GetBytes("Welcome To MMORPG Server !");
-            session.Send(sendBuff);
-            
-            Thread.Sleep(1000);
-            session.Disconnect();
-
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
-    }
     
     static void Main(string[] args)
     {
@@ -36,7 +45,7 @@ class Program
         IPAddress ipAddr = ipHost.AddressList[3];
         IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
-        _listener.Initialize(endPoint, OnAcceptHandler);
+        _listener.Initialize(endPoint, ()=> new GameSession());
         
         Console.WriteLine("Listening...");
 
