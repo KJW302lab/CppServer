@@ -12,3 +12,7 @@
 /Users/sandwich1991/Desktop/Server/Server/obj/Debug/net7.0/Server.pdb
 /Users/sandwich1991/Desktop/Server/Server/obj/Debug/net7.0/Server.genruntimeconfig.cache
 /Users/sandwich1991/Desktop/Server/Server/obj/Debug/net7.0/ref/Server.dll
+/Users/sandwich1991/Desktop/Server/Server/bin/Debug/net7.0/ServerCore.dll
+/Users/sandwich1991/Desktop/Server/Server/bin/Debug/net7.0/ServerCore.pdb
+/Users/sandwich1991/Desktop/Server/Server/obj/Debug/net7.0/Server.csproj.AssemblyReference.cache
+/Users/sandwich1991/Desktop/Server/Server/obj/Debug/net7.0/Server.csproj.CopyComplete

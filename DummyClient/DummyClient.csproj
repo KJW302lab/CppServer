@@ -8,4 +8,8 @@
         <RootNamespace>DummyClinet</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\ServerCore\ServerCore.csproj" />
+    </ItemGroup>
+
 </Project>

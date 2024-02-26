@@ -12,3 +12,7 @@
 /Users/sandwich1991/Desktop/Server/DummyClient/obj/Debug/net7.0/DummyClient.pdb
 /Users/sandwich1991/Desktop/Server/DummyClient/obj/Debug/net7.0/DummyClient.genruntimeconfig.cache
 /Users/sandwich1991/Desktop/Server/DummyClient/obj/Debug/net7.0/ref/DummyClient.dll
+/Users/sandwich1991/Desktop/Server/DummyClient/bin/Debug/net7.0/ServerCore.dll
+/Users/sandwich1991/Desktop/Server/DummyClient/bin/Debug/net7.0/ServerCore.pdb
+/Users/sandwich1991/Desktop/Server/DummyClient/obj/Debug/net7.0/DummyClient.csproj.AssemblyReference.cache
+/Users/sandwich1991/Desktop/Server/DummyClient/obj/Debug/net7.0/DummyClient.csproj.CopyComplete
