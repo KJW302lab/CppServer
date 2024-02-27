@@ -3,14 +3,31 @@ using System.Text;
 using ServerCore;
 
 namespace DummyClient;
+
+class Knight
+{
+    public int hp;
+    public int attack;
+    public string name;
+    public List<int> skills = new();
+}
+
 class GameSession : Session
 {
     public override void OnConnected(EndPoint endPoint)
     {
         Console.WriteLine($"OnConnected : {endPoint}");
+
+        Knight knight = new() { hp = 100, attack = 10 };
+
+        ArraySegment<byte> openSegment = SendBufferHelper.Open(4096);
+        byte[] buffer = BitConverter.GetBytes(knight.hp);
+        byte[] buffer2 = BitConverter.GetBytes(knight.attack);
+        Array.Copy(buffer, 0, openSegment.Array, openSegment.Offset, buffer.Length);
+        Array.Copy(buffer2, 0, openSegment.Array, openSegment.Offset + buffer.Length, buffer2.Length);
+        ArraySegment<byte> sendBuffer = SendBufferHelper.Close(buffer.Length + buffer2.Length);
         
-        byte[] sendBuff = Encoding.UTF8.GetBytes($"Hello World!");
-        Send(sendBuff);
+        Send(sendBuffer);
     }
 
     public override int OnReceive(ArraySegment<byte> buffer)
