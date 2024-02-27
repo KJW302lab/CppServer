@@ -12,20 +12,18 @@ class GameSession : Session
         
         byte[] sendBuff = Encoding.UTF8.GetBytes("Welcome To MMORPG Server !");
         Send(sendBuff);
-            
-        Thread.Sleep(1000);
-        Disconnect();
     }
 
-    public override void OnReceive(ArraySegment<byte> buffer)
+    public override int OnReceive(ArraySegment<byte> buffer)
     {
         string recvData = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, buffer.Count);
         Console.WriteLine($"[From Client] {recvData}");
+        return buffer.Count;
     }
 
     public override void OnSend(int numOfBytes)
     {
-        Console.WriteLine($"Transferred bytes : {numOfBytes}");
+        Console.WriteLine($"Send bytes : {numOfBytes}");
     }
 
     public override void OnDisconnected(EndPoint endPoint)

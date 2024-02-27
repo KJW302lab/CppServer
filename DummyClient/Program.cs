@@ -9,22 +9,21 @@ class GameSession : Session
     {
         Console.WriteLine($"OnConnected : {endPoint}");
         
-        for (int i = 0; i < 5; i++)
-        {
-            byte[] sendBuff = Encoding.UTF8.GetBytes($"Hello World! {i}");
-            Send(sendBuff);
-        }
+        byte[] sendBuff = Encoding.UTF8.GetBytes($"Hello World!");
+        Send(sendBuff);
     }
 
-    public override void OnReceive(ArraySegment<byte> buffer)
+    public override int OnReceive(ArraySegment<byte> buffer)
     {
         string recvData = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, buffer.Count);
         Console.WriteLine($"[From Server] {recvData}");
+
+        return buffer.Count;
     }
 
     public override void OnSend(int numOfBytes)
     {
-        Console.WriteLine($"Transferred bytes : {numOfBytes}");
+        Console.WriteLine($"Send bytes : {numOfBytes}");
     }
 
     public override void OnDisconnected(EndPoint endPoint)
@@ -43,8 +42,10 @@ class Program
         IPAddress ipAddr = ipHost.AddressList[1];
         IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
+        GameSession session = null;
+        
         Connector connector = new();
-        connector.Connect(endPoint, () => new GameSession());
+        connector.Connect(endPoint, () => session = new());
 
         while (true)
         {

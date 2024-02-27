@@ -15,8 +15,10 @@ public abstract class Session
     
     List<ArraySegment<byte>> _pendingList = new();
 
+    private RecvBuffer _recvBuffer = new(1024);
+
     public abstract void OnConnected(EndPoint endPoint);
-    public abstract void OnReceive(ArraySegment<byte> buffer);
+    public abstract int OnReceive(ArraySegment<byte> buffer);
     public abstract void OnSend(int numOfBytes);
     public abstract void OnDisconnected(EndPoint endPoint);
 
@@ -25,8 +27,6 @@ public abstract class Session
         _socket = socket;
         
         _recvArgs.Completed += OnReceiveCompleted;
-        _recvArgs.SetBuffer(new byte[1024], 0, 1024);
-        
         _sendArgs.Completed += OnSendCompleted;
         
         RegisterReceive();
@@ -96,6 +96,10 @@ public abstract class Session
     
     void RegisterReceive()
     {
+        _recvBuffer.Clear();
+        ArraySegment<byte> segment = _recvBuffer.WriteSegment;
+        _recvArgs.SetBuffer(segment.Array, segment.Offset, segment.Count);
+        
         bool pending = _socket.ReceiveAsync(_recvArgs);
         if (pending == false)
             OnReceiveCompleted(null, _recvArgs);
@@ -107,7 +111,28 @@ public abstract class Session
         {
             try
             {
-                OnReceive(new ArraySegment<byte>(args.Buffer, args.Offset, args.BytesTransferred));
+                // write 커서 이동
+                if (_recvBuffer.OnWrite(args.BytesTransferred) == false)
+                {
+                    Disconnect();
+                    return;
+                }
+                
+                // 컨텐츠쪽으로 데이터를 넘겨주고 얼마나 처리했는지 받는다
+                int processLength = OnReceive(_recvBuffer.ReadSegment);
+                if (processLength < 0 || _recvBuffer.DataSize < processLength)
+                {
+                    Disconnect();
+                    return;
+                }
+                
+                // read 커서 이동
+                if (_recvBuffer.OnRead(processLength) == false)
+                {
+                    Disconnect();
+                    return;
+                }
+                
                 RegisterReceive();
             }
             catch (Exception e)
