@@ -4,12 +4,10 @@ using ServerCore;
 
 namespace DummyClient;
 
-class Knight
+class Packet
 {
-    public int hp;
-    public int attack;
-    public string name;
-    public List<int> skills = new();
+    public ushort size;
+    public ushort packetId;
 }
 
 class GameSession : Session
@@ -17,17 +15,20 @@ class GameSession : Session
     public override void OnConnected(EndPoint endPoint)
     {
         Console.WriteLine($"OnConnected : {endPoint}");
-
-        Knight knight = new() { hp = 100, attack = 10 };
-
-        ArraySegment<byte> openSegment = SendBufferHelper.Open(4096);
-        byte[] buffer = BitConverter.GetBytes(knight.hp);
-        byte[] buffer2 = BitConverter.GetBytes(knight.attack);
-        Array.Copy(buffer, 0, openSegment.Array, openSegment.Offset, buffer.Length);
-        Array.Copy(buffer2, 0, openSegment.Array, openSegment.Offset + buffer.Length, buffer2.Length);
-        ArraySegment<byte> sendBuffer = SendBufferHelper.Close(buffer.Length + buffer2.Length);
         
-        Send(sendBuffer);
+        Packet packet = new() { size = 4, packetId = 7 };
+
+        for (int i = 0; i < 5; i++)
+        {
+            ArraySegment<byte> openSegment = SendBufferHelper.Open(4096);
+            byte[] buffer = BitConverter.GetBytes(packet.size);
+            byte[] buffer2 = BitConverter.GetBytes(packet.packetId);
+            Array.Copy(buffer, 0, openSegment.Array, openSegment.Offset, buffer.Length);
+            Array.Copy(buffer2, 0, openSegment.Array, openSegment.Offset + buffer.Length, buffer2.Length);
+            ArraySegment<byte> sendBuffer = SendBufferHelper.Close(packet.size);
+            
+            Send(sendBuffer);
+        }
     }
 
     public override int OnReceive(ArraySegment<byte> buffer)
