@@ -8,9 +8,12 @@ class Program
     private static ushort _packetId;
     private static string _packetEnums;
     
+    private static string _clientRegister;
+    private static string _serverRegister;
+    
     static void Main(string[] args)
     {
-        string pdlPath = "PDL.xml";
+        string pdlPath = "../PDL.xml";
         
         XmlReaderSettings settings = new()
         {
@@ -33,8 +36,13 @@ class Program
             }
 
             string fileText = string.Format(PacketFormat.fileFormat, _packetEnums, _genPackets);
-            
             File.WriteAllText("GenPackets.cs", fileText);
+            
+            string clientManagerText = string.Format(PacketFormat.managerFormat, _clientRegister);
+            File.WriteAllText("ClientPacketManager.cs", clientManagerText);
+            
+            string serverManagerText = string.Format(PacketFormat.managerFormat, _serverRegister);
+            File.WriteAllText("ServerPacketManager.cs", serverManagerText);
         }
     }
 
@@ -62,6 +70,11 @@ class Program
             packetName, t.Item1, t.Item2, t.Item3);
 
         _packetEnums += string.Format(PacketFormat.packetEnumFormat, packetName, ++_packetId) + Environment.NewLine + "\t";
+
+        if (packetName.StartsWith("S_") || packetName.StartsWith("s_"))
+            _clientRegister += string.Format(PacketFormat.mangerRegisterFormat, packetName);
+        else
+            _serverRegister += string.Format(PacketFormat.mangerRegisterFormat, packetName);
     }
 
     public static Tuple<string, string, string> ParseMembers(XmlReader r)

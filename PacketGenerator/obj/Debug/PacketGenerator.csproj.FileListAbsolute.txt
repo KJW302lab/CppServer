@@ -1,0 +1,14 @@
+/Users/sandwich1991/Desktop/Server/PacketGenerator/obj/Debug/PacketGenerator.GeneratedMSBuildEditorConfig.editorconfig
+/Users/sandwich1991/Desktop/Server/PacketGenerator/obj/Debug/PacketGenerator.AssemblyInfoInputs.cache
+/Users/sandwich1991/Desktop/Server/PacketGenerator/obj/Debug/PacketGenerator.AssemblyInfo.cs
+/Users/sandwich1991/Desktop/Server/PacketGenerator/obj/Debug/PacketGenerator.csproj.CoreCompileInputs.cache
+/Users/sandwich1991/Desktop/Server/PacketGenerator/obj/Debug/PacketGenerator.dll
+/Users/sandwich1991/Desktop/Server/PacketGenerator/obj/Debug/refint/PacketGenerator.dll
+/Users/sandwich1991/Desktop/Server/PacketGenerator/obj/Debug/PacketGenerator.pdb
+/Users/sandwich1991/Desktop/Server/PacketGenerator/obj/Debug/PacketGenerator.genruntimeconfig.cache
+/Users/sandwich1991/Desktop/Server/PacketGenerator/obj/Debug/ref/PacketGenerator.dll
+/Users/sandwich1991/Desktop/Server/PacketGenerator/bin/PacketGenerator
+/Users/sandwich1991/Desktop/Server/PacketGenerator/bin/PacketGenerator.deps.json
+/Users/sandwich1991/Desktop/Server/PacketGenerator/bin/PacketGenerator.runtimeconfig.json
+/Users/sandwich1991/Desktop/Server/PacketGenerator/bin/PacketGenerator.dll
+/Users/sandwich1991/Desktop/Server/PacketGenerator/bin/PacketGenerator.pdb

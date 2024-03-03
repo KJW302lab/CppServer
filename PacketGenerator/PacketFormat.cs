@@ -2,8 +2,57 @@ namespace PacketGenerator;
 
 public class PacketFormat
 {
+    // 0 packet Regist
+    public static string managerFormat = 
+@"using ServerCore;
+
+public class PacketManager
+{{
+    #region Instance
+    private static PacketManager _instance;
+    public static PacketManager Instance => _instance ??= new();
+    #endregion
+
+    private Dictionary<ushort, Action<PacketSession, ArraySegment<byte>>> _onRecv = new();
+    private Dictionary<ushort, Action<PacketSession, IPacket>> _handler = new();
+
+    public void Register()
+    {{
+{0}    }}
+    
+    public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)
+    {{
+        ushort count = 0;
+        
+        ushort size = BitConverter.ToUInt16(buffer.Array, buffer.Offset);
+        count += 2;
+        ushort id = BitConverter.ToUInt16(buffer.Array, buffer.Offset + count);
+        count += 2;
+
+        if (_onRecv.TryGetValue(id, out var action))
+            action.Invoke(session, buffer);
+    }}
+
+    void MakePacket<T>(PacketSession session, ArraySegment<byte> buffer) where T : IPacket, new()
+    {{
+        T packet = new T();
+        packet.Read(buffer);
+
+        if (_handler.TryGetValue(packet.Protocol, out var action))
+            action.Invoke(session, packet);
+    }}
+}}";
+
+    // 0 packetName
+    public static string mangerRegisterFormat = 
+@"      _onRecv.Add((ushort)PacketId.{0}, MakePacket<{0}>);
+      _handler.Add((ushort)PacketId.{0}, PacketHandler.{0}Handler);
+
+";
+    
+    
     // 0 packet name/number
-    // 1 pacekt list
+    // 1 packet list
     public static string fileFormat = 
 @"using System.Net;
 using System.Text;
@@ -13,9 +62,17 @@ public enum PacketId
 {{
 	{0}
 }}
+
+public interface IPacket
+{{
+	ushort Protocol {{ get; }}
+	void Read(ArraySegment<byte> segment);
+	ArraySegment<byte> Write();
+}}
+
 {1}";
 
-    
+
     // 0 packet name
     // 1 packet number
     public static string packetEnumFormat = 
@@ -29,9 +86,12 @@ public enum PacketId
     // 3 member Write
     public static string packetFormat = 
 @"
-class {0}
+class {0} : IPacket
 {{
     {1}
+
+    public ushort Protocol => (ushort)PacketId.{0};
+
     public void Read(ArraySegment<byte> segment)
     {{
         ushort count = 0;
@@ -72,7 +132,9 @@ class {0}
     // 3 read
     // 4 write
     public static string memberListFormat = 
-@"public struct {0}
+@"public List<{0}> {1}s = new();
+
+public class {0}
 {{
     {2}
     public void Read(ReadOnlySpan<byte> s, ref ushort count)
@@ -86,10 +148,7 @@ class {0}
         {4}
         return success;
     }}
-}}
-
-public List<{0}> {1}s = new();
-";
+}}";
 
 
     // 0 listName upper
