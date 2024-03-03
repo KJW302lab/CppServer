@@ -6,6 +6,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerCore", "ServerCore\Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyClient", "DummyClient\DummyClient.csproj", "{DF6FD7C9-4FC7-4D95-AE1D-B0AD4789E661}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacketGenerator", "PacketGenerator\PacketGenerator.csproj", "{80B4013E-669F-41AD-AD8E-B7A840C7F695}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{73C37696-D76B-464F-9C14-1DCEA13D85B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +28,12 @@ Global
 		{DF6FD7C9-4FC7-4D95-AE1D-B0AD4789E661}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF6FD7C9-4FC7-4D95-AE1D-B0AD4789E661}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF6FD7C9-4FC7-4D95-AE1D-B0AD4789E661}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80B4013E-669F-41AD-AD8E-B7A840C7F695}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80B4013E-669F-41AD-AD8E-B7A840C7F695}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80B4013E-669F-41AD-AD8E-B7A840C7F695}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80B4013E-669F-41AD-AD8E-B7A840C7F695}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{80B4013E-669F-41AD-AD8E-B7A840C7F695} = {73C37696-D76B-464F-9C14-1DCEA13D85B3}
 	EndGlobalSection
 EndGlobal
