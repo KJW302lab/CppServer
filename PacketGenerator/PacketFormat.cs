@@ -16,6 +16,11 @@ public class PacketManager
     private Dictionary<ushort, Action<PacketSession, ArraySegment<byte>>> _onRecv = new();
     private Dictionary<ushort, Action<PacketSession, IPacket>> _handler = new();
 
+    PacketManager()
+    {{
+        Register();
+    }}
+
     public void Register()
     {{
 {0}    }}
@@ -189,7 +194,7 @@ count += sizeof({1});";
     public static string readStringFormat = 
 @"ushort {0}Len = BitConverter.ToUInt16(s.Slice(count, s.Length - count));
 count += sizeof(ushort);
-name = Encoding.Unicode.GetString(s.Slice(count, nameLen));
+{0} = Encoding.Unicode.GetString(s.Slice(count, {0}Len));
 count += {0}Len;";
 
     // 0 name

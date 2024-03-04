@@ -10,10 +10,15 @@ public class PacketManager
     private Dictionary<ushort, Action<PacketSession, ArraySegment<byte>>> _onRecv = new();
     private Dictionary<ushort, Action<PacketSession, IPacket>> _handler = new();
 
+    PacketManager()
+    {
+        Register();
+    }
+
     public void Register()
     {
-      _onRecv.Add((ushort)PacketId.C_PlayerInfoReq, MakePacket<C_PlayerInfoReq>);
-      _handler.Add((ushort)PacketId.C_PlayerInfoReq, PacketHandler.C_PlayerInfoReqHandler);
+      _onRecv.Add((ushort)PacketId.C_Chat, MakePacket<C_Chat>);
+      _handler.Add((ushort)PacketId.C_Chat, PacketHandler.C_ChatHandler);
 
     }
     

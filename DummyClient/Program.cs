@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Text;
 using ServerCore;
 
 namespace DummyClient;
@@ -15,11 +14,20 @@ class Program
         IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
         Connector connector = new();
-        connector.Connect(endPoint, () => new ServerSession());
+        connector.Connect(endPoint, () => SessionManager.Instance.Generate(), 100);
 
         while (true)
         {
-            Thread.Sleep(1000);
+            try
+            {
+                SessionManager.Instance.SendForEach();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            
+            Thread.Sleep(250);
         }
     }
 }

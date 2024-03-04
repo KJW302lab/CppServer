@@ -8,15 +8,18 @@ public class Connector
     private Socket _socket;
     private Func<Session> _sessionFactory;
 
-    public void Connect(IPEndPoint endPoint, Func<Session> sessionFactory)
+    public void Connect(IPEndPoint endPoint, Func<Session> sessionFactory, int count = 1)
     {
-        _socket = new(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-        _sessionFactory += sessionFactory;
+        for (int i = 0; i < count; i++)
+        {
+            _socket = new(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            _sessionFactory += sessionFactory;
 
-        SocketAsyncEventArgs args = new();
-        args.Completed += OnConnectCompleted;
-        args.RemoteEndPoint = endPoint;
-        RegisterConnect(args);
+            SocketAsyncEventArgs args = new();
+            args.Completed += OnConnectCompleted;
+            args.RemoteEndPoint = endPoint;
+            RegisterConnect(args);   
+        }
     }
 
     void RegisterConnect(SocketAsyncEventArgs args)

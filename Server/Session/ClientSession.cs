@@ -2,14 +2,16 @@ using System.Net;
 using Server;
 using ServerCore;
 
-class ClientSession : PacketSession
+public class ClientSession : PacketSession
 {
+    public int SessionId { get; set; }
+    public GameRoom Room { get; set; }
+    
     public override void OnConnected(EndPoint endPoint)
     {
         Console.WriteLine($"OnConnected : {endPoint}");
         
-        Thread.Sleep(5000);
-        Disconnect();
+        Program.Room.Enter(this);
     }
     
     public override void OnRecvPacket(ArraySegment<byte> buffer)
@@ -24,6 +26,14 @@ class ClientSession : PacketSession
 
     public override void OnDisconnected(EndPoint endPoint)
     {
+        SessionManager.Instance.Remove(this);
+
+        if (Room != null)
+        {
+            Room.Leave(this);
+            Room = null;
+        }
+
         Console.WriteLine($"OnDisconnected : {endPoint}");
     }
 }
