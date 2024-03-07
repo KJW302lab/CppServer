@@ -8,19 +8,23 @@ public class Listener
     private Socket _listenSocket;
     private Func<Session> _sessionFactory;
 
-    public void Initialize(IPEndPoint endPoint, Func<Session> sessionFactory)
+    private int _connected;
+
+    public void Initialize(IPEndPoint endPoint, Func<Session> sessionFactory, int register = 10, int backlog = 100)
     {
         _listenSocket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
         _sessionFactory += sessionFactory;
         
         _listenSocket.Bind(endPoint);
         
-        _listenSocket.Listen(10);
+        _listenSocket.Listen(backlog);
 
-        SocketAsyncEventArgs args = new();
-        args.Completed += OnAcceptCompleted;
-
-        RegisterAccept(args);
+        for (int i = 0; i < register; i++)
+        {
+            SocketAsyncEventArgs args = new();
+            args.Completed += OnAcceptCompleted;
+            RegisterAccept(args);   
+        }
     }
     
     void RegisterAccept(SocketAsyncEventArgs args)
@@ -39,6 +43,7 @@ public class Listener
             Session session = _sessionFactory.Invoke();
             session.Start(args.AcceptSocket);
             session.OnConnected(args.AcceptSocket.RemoteEndPoint);
+            Console.WriteLine($"connected : {++_connected}");
         }
         else
             Console.WriteLine(args.SocketError);
