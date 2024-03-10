@@ -4,7 +4,9 @@ public class PacketFormat
 {
     // 0 packet Regist
     public static string managerFormat = 
-@"using ServerCore;
+@"using System;
+using System.Collections.Generic;
+using ServerCore;
 
 public class PacketManager
 {{
@@ -59,7 +61,8 @@ public class PacketManager
     // 0 packet name/number
     // 1 packet list
     public static string fileFormat = 
-@"using System.Net;
+@"using System;
+using System.Net;
 using System.Text;
 using ServerCore;
 

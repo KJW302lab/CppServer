@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using ServerCore;
 
 public class PacketManager

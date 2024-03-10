@@ -6,10 +6,20 @@ public class GameRoom : IJobQueue
 {
     private List<ClientSession> _sessions = new();
     private JobQueue _jobQueue = new();
-    
+    private List<ArraySegment<byte>> _pendingList = new();
+
     public void Push(Action job)
     {
         _jobQueue.Push(job);
+    }
+
+    public void Flush()
+    {
+        foreach (var clientSession in _sessions)
+            clientSession.Send(_pendingList);
+
+        Console.WriteLine($"Flushed {_pendingList.Count} items");
+        _pendingList.Clear();
     }
 
     public void Broadcast(ClientSession session, string chat)
@@ -19,8 +29,7 @@ public class GameRoom : IJobQueue
         packet.chat = $"{chat} I am {packet.playerId}";
         ArraySegment<byte> segment = packet.Write();
 
-        foreach (var clientSession in _sessions)
-            clientSession.Send(segment);
+        _pendingList.Add(segment);
     }
     
     public void Enter(ClientSession session)

@@ -10,6 +10,7 @@ public abstract class PacketSession : Session
     public sealed override int OnReceive(ArraySegment<byte> buffer)
     {
         int processLength = 0;
+        int packetCount = 0;
 
         while (true)
         {
@@ -25,9 +26,13 @@ public abstract class PacketSession : Session
             // 여기까지 왔으면 패킷 조립 가능
             OnRecvPacket(new ArraySegment<byte>(buffer.Array, buffer.Offset, dataSize));
 
+            packetCount++;
             processLength += dataSize;
             buffer = new ArraySegment<byte>(buffer.Array, buffer.Offset + dataSize, buffer.Count - dataSize);
         }
+
+        if (packetCount >= 1)
+            Console.WriteLine($"패킷 모아보내기 : {packetCount}");
         
         return processLength;
     }
@@ -47,7 +52,7 @@ public abstract class Session
     
     List<ArraySegment<byte>> _pendingList = new();
 
-    private RecvBuffer _recvBuffer = new(1024);
+    private RecvBuffer _recvBuffer = new(65535);
 
     public abstract void OnConnected(EndPoint endPoint);
     public abstract int OnReceive(ArraySegment<byte> buffer);
@@ -78,6 +83,21 @@ public abstract class Session
         lock (_lock)
         {
             _sendQueue.Enqueue(sendBuff);
+            if (_pendingList.Count == 0)
+                RegisterSend();
+        }
+    }
+    
+    public void Send(List<ArraySegment<byte>> sendBuffList)
+    {
+        if (sendBuffList.Count <= 0)
+            return;
+        
+        lock (_lock)
+        {
+            foreach (var segment in sendBuffList)
+                _sendQueue.Enqueue(segment);
+            
             if (_pendingList.Count == 0)
                 RegisterSend();
         }
