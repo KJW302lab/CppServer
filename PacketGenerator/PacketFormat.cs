@@ -75,6 +75,7 @@ public class PacketManager
 using System.Net;
 using System.Text;
 using ServerCore;
+using System.Collections.Generic;
 
 public enum PacketId
 {{
@@ -104,7 +105,7 @@ public interface IPacket
     // 3 member Write
     public static string packetFormat = 
 @"
-class {0} : IPacket
+public class {0} : IPacket
 {{
     {1}
 

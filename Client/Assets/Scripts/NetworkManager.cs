@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Net;
 using ServerCore;
 using UnityEngine;
@@ -7,6 +6,11 @@ using UnityEngine;
 public class NetworkManager : MonoBehaviour
 {
     private ServerSession _session = new();
+
+    public void Send(ArraySegment<byte> sendBuffer)
+    {
+        _session.Send(sendBuffer);
+    }
     
     void Start()
     {
@@ -18,27 +22,13 @@ public class NetworkManager : MonoBehaviour
 
         Connector connector = new();
         connector.Connect(endPoint, () => _session, 1);
-
-        StartCoroutine(CoSendPacket());
     }
 
     private void Update()
     {
-        IPacket packet = PacketQueue.Instance.Pop();
-        if (packet != null)
+        var packets = PacketQueue.Instance.PopAll();
+        
+        foreach (var packet in packets)
             PacketManager.Instance.HandlePacket(_session, packet);
-    }
-
-    IEnumerator CoSendPacket()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(3.0f);
-
-            C_Chat chatPacket = new();
-            chatPacket.chat = "Hello Unity!";
-            ArraySegment<byte> segment = chatPacket.Write();
-            _session.Send(segment);
-        }
     }
 }

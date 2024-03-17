@@ -8,16 +8,19 @@ public class SessionManager
     private List<ServerSession> _sessions = new();
     private object _lock = new();
 
+    private Random _rand = new();
+    
     public void SendForEach()
     {
         lock (_lock)
         {
             foreach (var serverSession in _sessions)
             {
-                C_Chat chatPacket = new();
-                chatPacket.chat = $"Hello Server!";
-                ArraySegment<byte> segment = chatPacket.Write();
-                serverSession.Send(segment);
+                C_Move movePacket = new();
+                movePacket.posX = _rand.Next(-50, 50);
+                movePacket.posY = 0;
+                movePacket.posZ = _rand.Next(-50, 50);
+                serverSession.Send(movePacket.Write());
             }
         }
     }
