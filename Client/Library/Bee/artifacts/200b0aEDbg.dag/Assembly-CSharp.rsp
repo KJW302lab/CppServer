@@ -346,15 +346,16 @@
 -r:"Library/Bee/artifacts/200b0aEDbg.dag/Unity.VSCode.Editor.ref.dll"
 -r:"Library/Bee/artifacts/200b0aEDbg.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/200b0aEDbg.dag/UnityEngine.UI.ref.dll"
-"Assets/NetworkManager.cs"
 "Assets/Scripts/Network/Connector.cs"
 "Assets/Scripts/Network/RecvBuffer.cs"
 "Assets/Scripts/Network/SendBuffer.cs"
 "Assets/Scripts/Network/ServerSession.cs"
 "Assets/Scripts/Network/Session.cs"
+"Assets/Scripts/NetworkManager.cs"
 "Assets/Scripts/Packet/ClientPacketManager.cs"
 "Assets/Scripts/Packet/GenPackets.cs"
 "Assets/Scripts/Packet/PacketHandler.cs"
+"Assets/Scripts/PacketQueue.cs"
 -langversion:9.0
 
 /deterministic
