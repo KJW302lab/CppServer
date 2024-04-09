@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+QlrN1mU/3B4QgaLhgeWkWdYvMF74B5ZW3lFkdekaOXNvKSbsQEyeX0P4XKPKzMTs9zV0WP3vwlnDCG2LqwiNw==",
+  "dgSpecHash": "mUHP2r9+YjLX3qszoJR4iWpu2Aa+WtdPd2q8yTAgcgCPoEEfLd5fgUv2nUy7AguUeS7mynn1ycPllZf1ru68ug==",
   "success": true,
-  "projectFilePath": "/Users/sandwich1991/Desktop/Server/DummyClient/DummyClient.csproj",
+  "projectFilePath": "C:\\Users\\user\\Desktop\\CppServer\\DummyClient\\DummyClient.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

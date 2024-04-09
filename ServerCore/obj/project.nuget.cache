@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "2rpzgcZpEnbqkPbIS0mQpYQeVGtt86XdQp024m7NsvfZdIGcRgE5bOEW0594daFUsVsXwA9GVRJWu/42Q4Jkzw==",
+  "dgSpecHash": "ZICMxXVwRzD4SNDz7rxjXuPl4rNbWIJeLwV5Nj8bINp13Wq/xGzHKOnkdWtX2tZQYVnsNKuFQhkjX55x64V/Vg==",
   "success": true,
-  "projectFilePath": "/Users/sandwich1991/Desktop/Server/ServerCore/ServerCore.csproj",
+  "projectFilePath": "C:\\Users\\user\\Desktop\\CppServer\\ServerCore\\ServerCore.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
