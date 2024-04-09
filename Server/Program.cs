@@ -16,11 +16,21 @@ class Program
     
     static void Main(string[] args)
     {
-        // DNS (Domain Name System)
-        string host = Dns.GetHostName();
-        IPHostEntry ipHost = Dns.GetHostEntry(host);
-        IPAddress ipAddr = ipHost.AddressList[2];
-        IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
+        string input = Console.ReadLine();
+
+        if (input == null)
+            return;
+
+        IPEndPoint endPoint;
+            
+        string[] arr = input.Split(':');
+        string ipAddrStr = arr[0];
+        string portStr = arr[1];
+
+        if (!IPAddress.TryParse(ipAddrStr, out IPAddress ip)) return;
+        if (!int.TryParse(portStr, out int port)) return;
+
+        endPoint = new(ip, port);
 
         _listener.Initialize(endPoint, ()=> SessionManager.Instance.Generate());
         
